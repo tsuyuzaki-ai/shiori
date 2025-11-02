@@ -1,0 +1,64 @@
+
+cd /Users/tsuyusakiai/UtaMemo
+
+----------------------------------
+ローカルサーバーで確認
+
+①vue動かす
+npm run dev
+
+②別のターミナル開いてlaravel動かす
+php artisan serve
+
+③http://127.0.0.1:8000 にアクセス
+----------------------------------
+Dockerサーバーで確認
+
+①Docker
+Dockerアプリ起動する
+
+docker-compose up -d      # コンテナ起動
+docker-compose down       # コンテナ停止
+
+②vue
+npm run dev
+
+③http://127.0.0.1:8000 にアクセス
+----------------------------------
+GitHub（2回目以降）
+
+ダウンロード
+git pull origin main
+
+アップロード（操作メモ保存してから）
+git add .
+git commit -m "フォルダ構成"
+git push
+
+----------------------------------
+pullしたらmanifest.jsonない
+npm install
+npm run build
+----------------------------------
+
+GitHub（初回）
+
+初めてのGit召喚
+git init
+
+アップロード
+git add .
+git commit -m "フォルダ構成（参考）"
+
+初めてのリモート追加
+git remote add origin https://github.com/tsuyuzaki-ai/shiori.git
+
+アップロード
+git push -u origin main
+----------------------------------
+Docker（初回）
+
+# PHPの依存関係（Composer）
+composer install
+# フロントエンドの依存関係（npm）
+npm install

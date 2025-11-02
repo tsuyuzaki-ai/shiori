@@ -1,0 +1,17 @@
+# Docker
+mysql_data/
+
+# PHP
+php/vendor/
+php/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+

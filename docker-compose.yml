@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: shiori_php
+    volumes:
+      - ./php:/var/www/html
+      - ./php/public:/var/www/html/public
+    ports:
+      - "8000:80"
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=shiori_db
+      - DB_USERNAME=shiori_user
+      - DB_PASSWORD=shiori_password
+    depends_on:
+      - mysql
+    networks:
+      - shiori_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: shiori_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=shiori_db
+      - MYSQL_USER=shiori_user
+      - MYSQL_PASSWORD=shiori_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - shiori_network
+
+networks:
+  shiori_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+

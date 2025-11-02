@@ -1,0 +1,14 @@
+{
+    "name": "shiori/app",
+    "description": "漫画読了管理アプリ",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
+
