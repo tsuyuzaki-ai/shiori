@@ -4,6 +4,7 @@ mysql_data/
 # PHP
 php/vendor/
 php/.env
+php/.env.product
 
 # IDE
 .vscode/

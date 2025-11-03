@@ -18,9 +18,6 @@ Dockerアプリ起動する
 docker-compose up -d      # コンテナ起動
 docker-compose down       # コンテナ停止
 
-②vue
-npm run dev
-
 ③http://127.0.0.1:8000 にアクセス
 ----------------------------------
 GitHub（2回目以降）
@@ -34,11 +31,6 @@ git commit -m "データベース初期化"
 git push
 
 ----------------------------------
-pullしたらmanifest.jsonない
-npm install
-npm run build
-----------------------------------
-
 GitHub（初回）
 
 初めてのGit召喚
@@ -54,9 +46,6 @@ git remote add origin https://github.com/tsuyuzaki-ai/shiori.git
 アップロード
 git push -u origin main
 ----------------------------------
-Docker（初回）
-
+初回
 # PHPの依存関係（Composer）
 composer install
-# フロントエンドの依存関係（npm）
-npm install

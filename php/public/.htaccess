@@ -1,7 +1,17 @@
 # Apache設定
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /shiori/public/
+    
+    # 本番環境: /shiori/public/ でアクセスされた場合、/public/ を削除
+    RewriteCond %{REQUEST_URI} ^/shiori/public/(.+)$
+    RewriteRule ^shiori/public/(.+)$ $1 [L]
+    
+    # 開発環境: /shiori/ でアクセスされた場合、そのまま処理
+    # （ドキュメントルートが /var/www/html/public なので /shiori/ プレフィックスを削除）
+    RewriteCond %{REQUEST_URI} ^/shiori/(.+)$
+    RewriteRule ^shiori/(.+)$ $1 [L]
+    
+    # ファイルが存在しない場合は index.php にリダイレクト
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
