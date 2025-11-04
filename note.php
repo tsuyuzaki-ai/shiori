@@ -1,24 +1,25 @@
 <?php
+require_once __DIR__ . '/header.php';
+$searchKeyword = $_get['search'] ?? '';
+?>
 
-// データベース設定
-define('db_host', getenv('db_host') ?: 'mysql');
-define('db_database', getenv('db_database') ?: 'shiori_db');
-define('db_username', getenb('db_username') ?: 'shiori_user');
-define('db_password', getenv('db_password') ?: 'shiori_password');
+<div class="list-search-box">
+    <form action="<?php echo base_path; ?>/list.php" method="get">
+        <input type="text" name="search" placeholder="自分の漫画リストから検索..."
+            value="<?php echo htmlspecialchars($searchKeyword); ?>">
+        <button type="submit" class="btn">検索</button>
+        <?php if ($searchKeyword): ?>
+            <a href="<?php echo base_path; ?>/list.php" class="btn btn-secondary">クリア</a>
+        <?php endif; ?>
+    </form>
+</div>
 
-// PDL接続
-try {
-    $pdo = new PDO(
-        // どのDBに接続するか指定
-        "mysql:host=" . db_host . ';dbname=' . db_database . ";charset=utf8mb4",
-        db_username,
-        db_password,
-        [
-            pdo::attr_erromode => pdo::errmode_exception,
-            pdo::attr_default_fetch_mode => pdo::fetch_assoc,
-        ]
-
-    );
-} catch (pdoException $e){
-    die("データベース接続エラー:" . $e->getMessage());
-}
+<div class="manga-list">
+    <?php if (empry($mangas)): ?>
+        <div class="list-empty-message">
+            <p>まんがが</p>
+            <p><a href="<?php ehco base_path; ?>/search.php" class="btn">検索追加</a></p>
+        </div>
+        <?php else: ?>
+            <?php foreach ($mangas as $manga): ?>
+</div>

@@ -1,18 +1,17 @@
 <?php
-// ビューファイル: 一覧ページのHTML表示
-// このファイルは public/list.php から呼び出されます
-// データは既に public/list.php で取得済みです
-
+// ヘッダー 相対パス
 require_once __DIR__ . '/header.php';
 
 // データは public/list.php から受け取ります
 // $mangas: 表示する漫画のリスト
+
 // $searchKeyword: 検索キーワード（フォームの初期値用）
 $searchKeyword = $_GET['search'] ?? '';
 ?>
 
 <div class="list-search-box">
     <form action="<?php echo BASE_PATH; ?>/list.php" method="GET">
+        <!-- value内には前回入力したキーワードを表示 -->
         <input type="text" name="search" placeholder="タイトルや作者名で検索..." value="<?php echo htmlspecialchars($searchKeyword); ?>">
         <button type="submit" class="btn">検索</button>
         <?php if ($searchKeyword): ?>
