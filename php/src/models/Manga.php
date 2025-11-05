@@ -72,6 +72,7 @@ class Manga
             AND (manga_name LIKE ? OR author_name LIKE ?)
             ORDER BY is_completed ASC, updated_at DESC
         ");
+        // 部分一致
         $searchTerm = "%{$keyword}%";
         $stmt->execute([$userId, $searchTerm, $searchTerm]);
         return $stmt->fetchAll();

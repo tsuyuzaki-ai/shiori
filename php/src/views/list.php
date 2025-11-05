@@ -36,7 +36,7 @@ $searchKeyword = $_GET['search'] ?? '';
                 <div class="manga-actions">
                     <div class="volume-control">
                         <button class="volume-btn" onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', -1)">-</button>
-                        <span class="volume-value"><?php echo htmlspecialchars($manga['volume']); ?>巻</span>
+                        <span class="volume-value"><?php echo $manga['volume'] == 0 ? '未読' : htmlspecialchars($manga['volume']) . '巻'; ?></span>
                         <button class="volume-btn" onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', 1)">+</button>
                     </div>
                     <form action="<?php echo BASE_PATH; ?>/manga.php" method="POST" style="display: inline;">

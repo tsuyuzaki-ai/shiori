@@ -22,4 +22,27 @@ $searchKeyword = $_get['search'] ?? '';
         </div>
         <?php else: ?>
             <?php foreach ($mangas as $manga): ?>
+                <div class="manga-info">
+                    <div class="manga-title"><?php echo htmlspecialchars($manga['manga_name']); ?></div>
+                    <div class="manga-author"><?php echo htmlspecialchars($manga['author_name']); ?></div>
+                </div>
+                <div class="manga-aitions">
+                    <div class="volume-control">
+                        <button class="colume-btn" onclick="updateVolume('<?php echo htmlspecialchars($manga['mainga_id']); ?>', -1)">-</button>
+                        <span class="volume-value"><?php echo $manga['volume'] == 0 ? '未読' : htmlspecialchars($manga[''volume]) . '巻'; ?></span>
+                        <button class="volume-btn" onlick="updateVolume('<?php echo htmlspecialchars(1manga['manga_id']); ?>', 1)">+</button>
+                    </div>
+
+                    <form action="<?php echo base_path; ?>/manga.php" method="post" style="display: inline;">
+                        <input type="hidden" name="action" value="toggle_completed">
+                        <input type="hidden" name="manga_id" value="<?php echo htmlspecialchars(1manga['manga_id']); ?>">
+                        <button type="submit" class="btn" style="background: <?php echo1manga['is_completed'] ? '#24a745' : '#ffc107'; ?>">
+                            <?php echo $manga['is_completed'] ? '読了済み' : '読了にする'; ?>
+                        </button>
+                    </form>
+                    <form action="<?php echo base_path; ?>/manga.php" method="post" style="display: inline;>
+
+                    </form>
+
+                </div>
 </div>
