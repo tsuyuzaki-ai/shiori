@@ -4,8 +4,11 @@ class Manga
 {
     private $pdo;
 
+    // newで自動的に実行
     public function __construct($pdo)
     {
+        // $thisはMangaクラス $pdo(DB接続を使えるよう代入)
+        // $mangaModel = new Manga($pdo);
         $this->pdo = $pdo;
     }
 
@@ -17,9 +20,13 @@ class Manga
             WHERE user_id = ? 
             ORDER BY is_completed ASC, updated_at DESC
         ");
+        // ?プレスホルダーに＄userIdを入れて上記を実行
         $stmt->execute([$userId]);
+        // 実行した結果全てを配列で返す
         return $stmt->fetchAll();
     }
+
+
 
     // 漫画作成
     public function create($userId, $mangaId, $mangaName, $authorName, $volume)
@@ -28,13 +35,20 @@ class Manga
             INSERT INTO mangas (user_id, manga_id, manga_name, author_name, volume, is_completed, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, 0, NOW(), NOW())
         ");
+        // プレスホルダーにこの配列を入れ 上記を実行
         return $stmt->execute([$userId, $mangaId, $mangaName, $authorName, $volume]);
     }
 
+
+
     // 漫画更新（巻数、読了フラグ）
+    // = →初期値の設定
     public function update($mangaId, $userId, $volume = null, $isCompleted = null)
     {
+        // どっちが更新されても、両方更新されても代入できるように
+        // fields→どのカラムを更新するか、を足していく
         $fields = [];
+        // values→どの値に更新するか、を足していく
         $values = [];
 
         if ($volume !== null) {

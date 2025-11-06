@@ -12,7 +12,8 @@ $searchKeyword = $_GET['search'] ?? '';
 <div class="list-search-box">
     <form action="<?php echo BASE_PATH; ?>/list.php" method="GET">
         <!-- value内には前回入力したキーワードを表示 -->
-        <input type="text" name="search" placeholder="タイトルや作者名で検索..." value="<?php echo htmlspecialchars($searchKeyword); ?>">
+        <input type="text" name="search" placeholder="タイトルや作者名で検索..."
+            value="<?php echo htmlspecialchars($searchKeyword); ?>">
         <button type="submit" class="btn">検索</button>
         <?php if ($searchKeyword): ?>
             <a href="<?php echo BASE_PATH; ?>/list.php" class="btn btn-secondary">クリア</a>
@@ -35,18 +36,23 @@ $searchKeyword = $_GET['search'] ?? '';
                 </div>
                 <div class="manga-actions">
                     <div class="volume-control">
-                        <button class="volume-btn" onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', -1)">-</button>
-                        <span class="volume-value"><?php echo $manga['volume'] == 0 ? '未読' : htmlspecialchars($manga['volume']) . '巻'; ?></span>
-                        <button class="volume-btn" onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', 1)">+</button>
+                        <button class="volume-btn"
+                            onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', -1)">-</button>
+                        <span
+                            class="volume-value"><?php echo $manga['volume'] == 0 ? '未読' : htmlspecialchars($manga['volume']) . '巻'; ?></span>
+                        <button class="volume-btn"
+                            onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', 1)">+</button>
                     </div>
                     <form action="<?php echo BASE_PATH; ?>/manga.php" method="POST" style="display: inline;">
                         <input type="hidden" name="action" value="toggle_completed">
                         <input type="hidden" name="manga_id" value="<?php echo htmlspecialchars($manga['manga_id']); ?>">
-                        <button type="submit" class="btn" style="background: <?php echo $manga['is_completed'] ? '#28a745' : '#ffc107'; ?>">
+                        <button type="submit" class="btn"
+                            style="background: <?php echo $manga['is_completed'] ? '#28a745' : '#ffc107'; ?>">
                             <?php echo $manga['is_completed'] ? '読了済み' : '読了にする'; ?>
                         </button>
                     </form>
-                    <form action="<?php echo BASE_PATH; ?>/manga.php" method="POST" style="display: inline;" onsubmit="return confirm('削除してもよろしいですか？');">
+                    <form action="<?php echo BASE_PATH; ?>/manga.php" method="POST" style="display: inline;"
+                        onsubmit="return confirm('削除してもよろしいですか？');">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="manga_id" value="<?php echo htmlspecialchars($manga['manga_id']); ?>">
                         <button type="submit" class="manga-delete-btn">削除</button>
@@ -58,4 +64,3 @@ $searchKeyword = $_GET['search'] ?? '';
 </div>
 
 <?php require_once __DIR__ . '/footer.php'; ?>
-
