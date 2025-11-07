@@ -1,6 +1,7 @@
 /* ------------------------------------------
 一覧ページ
 ------------------------------------------ */
+// updateVolume('manga123', -1)
 function updateVolume(mangaId, change) {
     const form = document.createElement('form');
     form.method = 'POST';

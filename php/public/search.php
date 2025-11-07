@@ -1,5 +1,5 @@
 <?php
-// エントリーポイント: 検索ページ
+// エントリーポイント: 新しい漫画検索ページ
 // このファイルはURLから直接アクセスされます: http://localhost:8000/shiori/search.php
 
 require_once __DIR__ . '/../src/bootstrap.php';

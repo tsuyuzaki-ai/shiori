@@ -13,8 +13,10 @@ class User
     public function create($username, $password)
     {
         // 同じユーザー名が存在するかチェック
+        // COUNT(*)→行数を数える
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
         $stmt->execute([$username]);
+        // 結果は1行1列のためfetchColumnの取り回しが一番良い
         if ($stmt->fetchColumn() > 0) {
             throw new Exception("このユーザー名は既に使用されています");
         }
@@ -34,6 +36,7 @@ class User
         $stmt->execute([$username]);
         $user = $stmt->fetch();
 
+        // password_verify→ハッシュ化されていてもわかる
         if ($user && password_verify($password, $user['password'])) {
             return $user;
         }

@@ -36,6 +36,7 @@ $searchKeyword = $_GET['search'] ?? '';
                 </div>
                 <div class="manga-actions">
                     <div class="volume-control">
+                        <!-- 送信フォームはJSで作成 -->
                         <button class="volume-btn"
                             onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', -1)">-</button>
                         <span

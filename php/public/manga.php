@@ -60,6 +60,7 @@ if ($action === 'add') {
     }
     
     if ($currentManga) {
+        // 現状を！で反転させる
         $newCompleted = !$currentManga['is_completed'];
         $mangaModel->update($mangaId, $userId, null, $newCompleted);
     }

@@ -27,7 +27,7 @@ git pull origin main
 
 アップロード（操作メモ保存してから）
 git add .
-git commit -m "viewからスタート listの途中まで"
+git commit -m "Manga.phpの途中まで"
 git push
 
 ----------------------------------
