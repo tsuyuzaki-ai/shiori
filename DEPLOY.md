@@ -46,6 +46,31 @@ DB_PASSWORD=実際のDBパスワード
 BASE_URL=http://app-portfolio.xvps.jp/shiori
 ```
 
+### 5.5. データベースの事前準備（初回のみ）
+
+サーバー側でデータベースとユーザーを作成する必要があります。
+
+#### オプションA: SQLファイルを使用（推奨）
+
+```bash
+# MySQLのrootユーザーで実行
+# 注意: 00_create_database.sql内のユーザー名とパスワードを実際の値に置き換えてください
+mysql -u root -p < mysql/init/00_create_database.sql
+```
+
+#### オプションB: 手動で作成
+
+```bash
+mysql -u root -p
+```
+
+```sql
+CREATE DATABASE IF NOT EXISTS shiori_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS 'shiori_user'@'localhost' IDENTIFIED BY '実際のパスワード';
+GRANT ALL PRIVILEGES ON shiori_db.* TO 'shiori_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
 ### 6. データベースの初期化
 ```bash
 # MySQLに接続して初期化SQLを実行

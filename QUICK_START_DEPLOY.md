@@ -16,6 +16,37 @@
    - ユーザー名: `?`
    - パスワード: `?`
 
+## ステップ1.5: サーバー側での事前準備（初回のみ）
+
+### データベースの作成
+
+サーバーにSSH接続後、MySQLのrootユーザーで以下を実行：
+
+```bash
+# MySQLにrootユーザーで接続
+mysql -u root -p
+
+# データベースとユーザーを作成
+# 注意: パスワードは実際の値に置き換えてください
+```
+
+または、SQLファイルを実行：
+
+```bash
+# プロジェクトをクローン後
+cd shiori
+mysql -u root -p < mysql/init/00_create_database.sql
+```
+
+**重要**: `00_create_database.sql` ファイル内の `shiori_user` と `shiori_password` を実際の値に置き換えてから実行してください。
+
+### データベース作成の確認
+
+```bash
+mysql -u root -p -e "SHOW DATABASES;"
+mysql -u root -p -e "SELECT User, Host FROM mysql.user WHERE User = 'shiori_user';"
+```
+
 ## ステップ2: 初回デプロイの実行
 
 ### 2-1. サーバーにSSH接続
