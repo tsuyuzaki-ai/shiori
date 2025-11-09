@@ -12,7 +12,7 @@ $searchKeyword = $_GET['search'] ?? '';
 <div class="list-search-box">
     <form action="<?php echo BASE_PATH; ?>/list.php" method="GET">
         <!-- value内には前回入力したキーワードを表示 -->
-        <input type="text" name="search" placeholder="タイトルや作者名で検索..."
+        <input type="text" name="search" placeholder="自分の漫画リストから検索..."
             value="<?php echo htmlspecialchars($searchKeyword); ?>">
         <button type="submit" class="btn">検索</button>
         <?php if ($searchKeyword): ?>
@@ -29,14 +29,25 @@ $searchKeyword = $_GET['search'] ?? '';
         </div>
     <?php else: ?>
         <?php foreach ($mangas as $manga): ?>
-            <div class="manga-item <?php echo $manga['is_completed'] ? 'completed' : ''; ?>">
-                <div class="manga-info">
-                    <div class="manga-title"><?php echo htmlspecialchars($manga['manga_name']); ?></div>
-                    <div class="manga-author"><?php echo htmlspecialchars($manga['author_name']); ?></div>
-                </div>
-                <div class="manga-actions">
+            <div class="manga-item <?php echo $manga['is_completed'] ? 'completed' : ''; ?>" data-manga-id="<?php echo htmlspecialchars($manga['manga_id']); ?>">
+                <div class="manga-content">
+                    <?php
+                    // データベースから表紙画像を取得
+                    $coverImage = $manga['cover_image'] ?? '';
+                    // 表紙画像が保存されていない場合はデフォルト画像
+                    if (empty($coverImage)) {
+                        $coverImage = 'https://placehold.jp/cccccc/666666/120x170.png?text=表紙';
+                    }
+                    ?>
+                    <img src="<?php echo htmlspecialchars($coverImage); ?>" alt="<?php echo htmlspecialchars($manga['manga_name']); ?>" class="manga-cover">
+                    <div class="manga-info-wrapper">
+                        <div class="manga-info">
+                            <div class="manga-title"><?php echo htmlspecialchars($manga['manga_name']); ?></div>
+                            <div class="manga-author"><?php echo htmlspecialchars($manga['author_name']); ?></div>
+                        </div>
+                        <div class="manga-actions">
                     <div class="volume-control">
-                        <!-- 送信フォームはJSで作成 -->
+                        <!-- クリックされたら送信フォームをJSで作成＆　確定 -->
                         <button class="volume-btn"
                             onclick="updateVolume('<?php echo htmlspecialchars($manga['manga_id']); ?>', -1)">-</button>
                         <span
@@ -47,8 +58,7 @@ $searchKeyword = $_GET['search'] ?? '';
                     <form action="<?php echo BASE_PATH; ?>/manga.php" method="POST" style="display: inline;">
                         <input type="hidden" name="action" value="toggle_completed">
                         <input type="hidden" name="manga_id" value="<?php echo htmlspecialchars($manga['manga_id']); ?>">
-                        <button type="submit" class="btn"
-                            style="background: <?php echo $manga['is_completed'] ? '#28a745' : '#ffc107'; ?>">
+                        <button type="submit" class="btn <?php echo $manga['is_completed'] ? 'btn-completed' : 'btn-not-completed'; ?>">
                             <?php echo $manga['is_completed'] ? '読了済み' : '読了にする'; ?>
                         </button>
                     </form>
@@ -56,8 +66,10 @@ $searchKeyword = $_GET['search'] ?? '';
                         onsubmit="return confirm('削除してもよろしいですか？');">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="manga_id" value="<?php echo htmlspecialchars($manga['manga_id']); ?>">
-                        <button type="submit" class="manga-delete-btn">削除</button>
+                        <button type="submit" class="btn manga-delete-btn">削除</button>
                     </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>

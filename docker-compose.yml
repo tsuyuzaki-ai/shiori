@@ -37,6 +37,21 @@ services:
     networks:
       - shiori_network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: shiori_phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=shiori_user
+      - PMA_PASSWORD=shiori_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - shiori_network
+
 networks:
   shiori_network:
     driver: bridge

@@ -14,8 +14,14 @@
         <header>
             <nav>
                 <div>
-                    <a href="<?php echo BASE_PATH; ?>/list.php">一覧</a>
-                    <a href="<?php echo BASE_PATH; ?>/search.php">検索</a>
+                    <?php
+                    // 現在のページを判定
+                    $currentPage = basename($_SERVER['PHP_SELF']);
+                    $isListPage = ($currentPage === 'list.php');
+                    $isSearchPage = ($currentPage === 'search.php');
+                    ?>
+                    <a href="<?php echo BASE_PATH; ?>/list.php" class="<?php echo $isListPage ? 'active' : ''; ?>">一覧</a>
+                    <a href="<?php echo BASE_PATH; ?>/search.php" class="<?php echo $isSearchPage ? 'active' : ''; ?>">検索</a>
                 </div>
                 <div class="user-info">
                     <?php if (isset($_SESSION['user_id'])): ?>

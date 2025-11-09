@@ -37,13 +37,32 @@ nav {
 nav a {
     color: #333;
     text-decoration: none;
-    padding: 8px 16px;
+    padding: 8px 24px 8px 16px;
     border-radius: 4px;
     transition: background 0.2s;
+    position: relative;
 }
 
-nav a:hover {
+nav a:hover:not(.active) {
     background: #f0f0f0;
+}
+
+nav a.active {
+    /* しおり型の背景（長方形） */
+    background: #b3d9e6;
+    position: relative;
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 17px solid transparent;
+    border-top: 17px solid transparent;
+    border-right: 12px solid white;
 }
 
 nav .user-info {
@@ -55,8 +74,9 @@ nav .user-info {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    background: #007bff;
+    background: #6090f0;
     color: white;
+    border: 1px solid #ccc;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -70,10 +90,31 @@ nav .user-info {
 
 .btn-secondary {
     background: #6c757d;
+    border: 1px solid #ccc;
 }
 
 .btn-secondary:hover {
     background: #545b62;
+}
+
+.btn-completed {
+    background: #ccc;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.btn-completed:hover {
+    background: #ccc;
+}
+
+.btn-not-completed {
+    background: #aaa;
+    border: 1px solid #ccc;
+    color: white;
+}
+
+.btn-not-completed:hover {
+    background: #aaa;
 }
 
 /* ------------------------------------------
@@ -117,7 +158,7 @@ nav .user-info {
 .login-form-group input[type="text"]:focus,
 .login-form-group input[type="password"]:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #6090f0;
 }
 
 .login-error {
@@ -143,7 +184,7 @@ nav .user-info {
 }
 
 .toggle-form a {
-    color: #007bff;
+    color: #6090f0;
     text-decoration: none;
 }
 
@@ -184,6 +225,7 @@ nav .user-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .manga-item:last-child {
@@ -195,8 +237,32 @@ nav .user-info {
     opacity: 0.7;
 }
 
-.manga-info {
+.manga-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
     flex: 1;
+}
+
+.manga-cover {
+    width: 80px;
+    height: 115px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.manga-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+}
+
+.manga-info {
+    flex: 0 0 auto;
 }
 
 .manga-title {
@@ -214,6 +280,7 @@ nav .user-info {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .volume-control {
@@ -249,8 +316,8 @@ nav .user-info {
 }
 
 .manga-delete-btn {
-    padding: 8px 16px;
-    background: #dc3545;
+    /* padding: 8px 16px; */
+    background: #f06060;
     color: white;
     border: none;
     border-radius: 4px;
@@ -258,7 +325,7 @@ nav .user-info {
 }
 
 .manga-delete-btn:hover {
-    background: #c82333;
+    background: #d05050;
 }
 
 .list-empty-message {
@@ -295,7 +362,7 @@ nav .user-info {
 
 .search-page-box input:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #6090f0;
 }
 
 .search-results {
@@ -315,9 +382,36 @@ nav .user-info {
     background: #f8f9fa;
 }
 
+.search-result-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-result-cover {
+    width: 80px;
+    height: 115px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.search-result-info {
+    flex: 1;
+    min-width: 0;
+}
+
 .search-result-title {
     font-weight: bold;
     margin-bottom: 5px;
+}
+
+.search-result-volume {
+    font-size: 12px;
+    color: #999;
+    font-weight: normal;
+    margin-left: 5px;
 }
 
 .search-result-author {
@@ -337,5 +431,228 @@ nav .user-info {
     background: #f8d7da;
     border-radius: 4px;
     margin-bottom: 20px;
+}
+
+/* ------------------------------------------
+レスポンシブ対応（768px以下）
+------------------------------------------ */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    header {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    nav > div {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        padding: 6px 24px 6px 16px;
+        font-size: 14px;
+    }
+
+    nav .user-info {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .btn {
+        /* padding: 8px 16px; */
+        font-size: 13px;
+    }
+
+    /* ログインページ */
+    .login-container {
+        margin: 50px auto;
+        padding: 30px 20px;
+        max-width: 100%;
+    }
+
+    /* 一覧ページ */
+    .list-search-box {
+        padding: 15px;
+    }
+
+    .list-search-box form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .list-search-box input {
+        width: 100%;
+    }
+
+    .manga-item {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .manga-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .manga-cover {
+        width: 100%;
+        max-width: 120px;
+        height: auto;
+        aspect-ratio: 80 / 115;
+        margin: 0 auto;
+    }
+
+    .manga-info-wrapper {
+        gap: 12px;
+    }
+
+    .manga-title {
+        font-size: 16px;
+    }
+
+    .manga-author {
+        font-size: 14px;
+    }
+
+    .manga-actions {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .volume-control {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .manga-actions form {
+        width: 100%;
+    }
+
+    .manga-actions .btn,
+    .manga-delete-btn {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* 検索ページ */
+    .search-container {
+        padding: 20px 15px;
+    }
+
+    .search-container h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .search-page-box {
+        margin-bottom: 20px;
+    }
+
+    .search-page-box input {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .search-result-item {
+        padding: 12px;
+    }
+
+    .search-result-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .search-result-cover {
+        width: 100%;
+        max-width: 120px;
+        height: auto;
+        aspect-ratio: 80 / 115;
+    }
+
+    .search-result-info {
+        width: 100%;
+    }
+
+    .search-result-title {
+        font-size: 16px;
+    }
+
+    .search-result-author {
+        font-size: 13px;
+    }
+}
+
+/* ------------------------------------------
+レスポンシブ対応（375px以下）
+------------------------------------------ */
+@media (max-width: 375px) {
+    .container {
+        padding: 8px;
+    }
+
+    header {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    nav a {
+        padding: 6px 22px 6px 12px;
+        font-size: 13px;
+    }
+
+    .btn {
+        /* padding: 8px 14px; */
+        font-size: 12px;
+    }
+
+    .login-container {
+        margin: 30px auto;
+        padding: 20px 15px;
+    }
+
+    .list-search-box {
+        padding: 12px;
+    }
+
+    .manga-item {
+        padding: 12px;
+    }
+
+    .manga-cover {
+        max-width: 100px;
+    }
+
+    .manga-title {
+        font-size: 15px;
+    }
+
+    .search-container {
+        padding: 15px 12px;
+    }
+
+    .search-container h1 {
+        font-size: 20px;
+    }
+
+    .search-result-cover {
+        max-width: 100px;
+    }
 }
 

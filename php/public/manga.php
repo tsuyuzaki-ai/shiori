@@ -16,13 +16,17 @@ $action = $_POST['action'] ?? '';
 $mangaModel = new Manga($pdo);
 $userId = $_SESSION['user_id'];
 
+// Ajaxリクエストかどうかを判定
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
 if ($action === 'add') {
     $mangaId = $_POST['manga_id'] ?? '';
     $mangaName = $_POST['manga_name'] ?? '';
     $authorName = $_POST['author_name'] ?? '';
     $volume = intval($_POST['volume'] ?? 0);
+    $coverImage = $_POST['cover_image'] ?? null;
     
-    $mangaModel->create($userId, $mangaId, $mangaName, $authorName, $volume);
+    $mangaModel->create($userId, $mangaId, $mangaName, $authorName, $volume, $coverImage);
     header('Location: ' . BASE_PATH . '/list.php');
     exit;
 } elseif ($action === 'update_volume') {
@@ -42,6 +46,27 @@ if ($action === 'add') {
     if ($currentManga) {
         $newVolume = max(0, $currentManga['volume'] + $change);
         $mangaModel->update($mangaId, $userId, $newVolume);
+        
+        // Ajaxリクエストの場合はJSONを返す
+        if ($isAjax) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode([
+                'success' => true,
+                'manga_id' => $mangaId,
+                'volume' => $newVolume
+            ]);
+            exit;
+        }
+    } else {
+        // Ajaxリクエストでエラーの場合
+        if ($isAjax) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode([
+                'success' => false,
+                'error' => '漫画が見つかりませんでした'
+            ]);
+            exit;
+        }
     }
     
     header('Location: ' . BASE_PATH . '/list.php');

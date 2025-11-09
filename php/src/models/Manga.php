@@ -29,14 +29,14 @@ class Manga
 
 
     // 漫画作成
-    public function create($userId, $mangaId, $mangaName, $authorName, $volume)
+    public function create($userId, $mangaId, $mangaName, $authorName, $volume, $coverImage = null)
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO mangas (user_id, manga_id, manga_name, author_name, volume, is_completed, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, 0, NOW(), NOW())
+            INSERT INTO mangas (user_id, manga_id, manga_name, author_name, cover_image, volume, is_completed, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, 0, NOW(), NOW())
         ");
         // プレスホルダーにこの配列を入れ 上記を実行
-        return $stmt->execute([$userId, $mangaId, $mangaName, $authorName, $volume]);
+        return $stmt->execute([$userId, $mangaId, $mangaName, $authorName, $coverImage, $volume]);
     }
 
 

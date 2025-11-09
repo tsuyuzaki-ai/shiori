@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS mangas (
     manga_id VARCHAR(255) NOT NULL,
     manga_name VARCHAR(255) NOT NULL,
     author_name VARCHAR(255) NOT NULL,
+    cover_image VARCHAR(500) NULL,
     volume INT NOT NULL DEFAULT 0,
     is_completed BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
