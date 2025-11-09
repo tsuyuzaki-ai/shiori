@@ -62,16 +62,7 @@ cd ~
 git clone https://github.com/tsuyuzaki-ai/shiori.git
 cd shiori
 
-②-2. データベースの事前準備（初回のみ）
-# MySQLのrootユーザーでデータベースとユーザーを作成
-# 注意: 00_create_database.sql内のユーザー名とパスワードを実際の値に置き換える
-mysql -u root -p < mysql/init/00_create_database.sql
-
-③デプロイスクリプトを実行
-chmod +x deploy.sh
-./deploy.sh 初回
-
-④データベース設定を確認・変更
+③データベース設定を確認・変更
 cd php
 # .envファイルを作成または編集
 touch .env
@@ -84,16 +75,16 @@ nano .env
 # DB_PASSWORD=DBパスワード
 # BASE_URL=http://app-portfolio.xvps.jp/shiori
 
-⑤データベースの初期化
+④データベースの初期化
 # MySQLに接続して初期化SQLを実行
 mysql -u DBユーザー名 -p データベース名 < mysql/init/01_create_tables.sql
 
-⑥Webサーバーの設定確認
+⑤Webサーバーの設定確認
 # Apacheの設定で /shiori/public がドキュメントルートになっているか確認
 # またはシンボリックリンクの設定
 # 例: sudo ln -s $(pwd)/php/public /var/www/html/shiori
 
-⑦動作確認
+⑥動作確認
 http://app-portfolio.xvps.jp/shiori にアクセス
 
 【2回目以降のデプロイ】
@@ -103,20 +94,14 @@ ssh ユーザー名@app-portfolio.xvps.jp
 ②プロジェクトディレクトリに移動
 cd /path/to/shiori
 
-③デプロイスクリプトを実行（推奨）
-./deploy.sh 更新
-# または手動で以下を実行
+③最新のコードを取得
 git pull origin main
+
+④Composerの依存関係を更新（必要に応じて）
 cd php
 composer install --no-dev --optimize-autoloader
 cd ..
 chmod -R 755 php/public
 
-④動作確認
+⑤動作確認
 http://app-portfolio.xvps.jp/shiori にアクセス
-----------------------------------
-デプロイ関連ファイル
-- DEPLOY.md: 詳細なデプロイ手順
-- QUICK_START_DEPLOY.md: クイックスタートガイド
-- DEPLOY_CHECKLIST.md: デプロイ前チェックリスト
-- deploy.sh: デプロイ自動化スクリプト
