@@ -4,7 +4,7 @@
 // updateVolume('manga123', -1)
 function updateVolume(mangaId, change) {
     // 巻数表示要素を取得
-    const volumeElement = document.querySelector(`[data-manga-id="${mangaId}"] .volume-value`);
+    const volumeElement = document.querySelector();
     if (!volumeElement) return;
     
     // ローディング状態（一時的に無効化）
@@ -87,9 +87,10 @@ function searchManga(keyword) {
 
     resultsDiv.innerHTML = '<div class="search-loading">検索中...</div>';
 
+    // 常に1巻のみに絞り込む
     // encodeURIComponent→%E3%83%9E%E3%83%B3%E3%82%AC%201%E5%B7%BB
     // fetch は必ず Promise を返す→then,catch
-    fetch(BASE_PATH + '/api/search.php?q=' + encodeURIComponent(keyword))
+    fetch(BASE_PATH + '/api/search.php?q=' + encodeURIComponent(keyword) + '&volume1=1')
     // データを受け取ってjsonに変換
     // （引数） => 処理
         .then(response => response.json())
@@ -179,4 +180,3 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-

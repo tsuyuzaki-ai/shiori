@@ -11,6 +11,41 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// タイトルから巻数部分を除去する関数
+function removeVolumeFromTitle($title) {
+    if (empty($title)) {
+        return $title;
+    }
+    
+    // より確実なパターンマッチング（順序が重要）
+    // パターン1: 末尾の「（数字）」を除去（全角括弧）
+    if (preg_match("/^(.+)[（][0-9]+[）]$/u", $title, $matches)) {
+        return trim($matches[1]);
+    }
+    
+    // パターン2: 末尾の「(数字)」を除去（半角括弧）
+    if (preg_match("/^(.+)\\([0-9]+\\)$/u", $title, $matches)) {
+        return trim($matches[1]);
+    }
+    
+    // パターン3: 末尾の「 第数字巻」を除去
+    if (preg_match("/^(.+)\\s+第[0-9]+[巻冊]$/u", $title, $matches)) {
+        return trim($matches[1]);
+    }
+    
+    // パターン4: 末尾の「 数字巻」を除去
+    if (preg_match("/^(.+)\\s+[0-9]+[巻冊]$/u", $title, $matches)) {
+        return trim($matches[1]);
+    }
+    
+    // パターン5: 末尾の「 数字」を除去
+    if (preg_match("/^(.+)\\s+[0-9]+$/u", $title, $matches)) {
+        return trim($matches[1]);
+    }
+    
+    return trim($title);
+}
+
 // データ処理（ビジネスロジック）
 $action = $_POST['action'] ?? '';
 $mangaModel = new Manga($pdo);
@@ -25,6 +60,18 @@ if ($action === 'add') {
     $authorName = $_POST['author_name'] ?? '';
     $volume = intval($_POST['volume'] ?? 0);
     $coverImage = $_POST['cover_image'] ?? null;
+    
+    // タイトルから巻数部分を除去（必ず実行）
+    $originalMangaName = $mangaName;
+    $mangaName = removeVolumeFromTitle($mangaName);
+    
+    // デバッグ用ログ
+    error_log('Manga add - Original: [' . $originalMangaName . '], Cleaned: [' . $mangaName . ']');
+    
+    // タイトルが空でないことを確認
+    if (empty($mangaName)) {
+        $mangaName = $originalMangaName; // 除去後に空になった場合は元のタイトルを使用
+    }
     
     $mangaModel->create($userId, $mangaId, $mangaName, $authorName, $volume, $coverImage);
     header('Location: ' . BASE_PATH . '/list.php');
@@ -101,4 +148,3 @@ if ($action === 'add') {
 
 header('Location: ' . BASE_PATH . '/list.php');
 exit;
-
