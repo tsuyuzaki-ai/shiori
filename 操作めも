@@ -27,7 +27,7 @@ git pull origin main
 
 アップロード（操作メモ保存してから）
 git add .
-git commit -m "main.jsの途中まで"
+git commit -m "API連携とレスポンシブ対応"
 git push
 
 ----------------------------------
@@ -49,3 +49,69 @@ git push -u origin main
 初回
 # PHPの依存関係（Composer）
 composer install
+----------------------------------
+サーバーデプロイ手順
+（http://app-portfolio.xvps.jp/shiori で確認できるまで）
+
+【初回デプロイ】
+①サーバーにSSH接続
+ssh ユーザー名@app-portfolio.xvps.jp
+
+②プロジェクトをクローン
+cd ~
+git clone https://github.com/tsuyuzaki-ai/shiori.git
+cd shiori
+
+③デプロイスクリプトを実行
+chmod +x deploy.sh
+./deploy.sh 初回
+
+④データベース設定を確認・変更
+cd php
+# .envファイルを作成または編集
+touch .env
+nano .env
+# 本番環境のDB接続情報を設定
+# APP_ENV=production
+# DB_HOST=localhost（またはサーバーのDBホスト）
+# DB_DATABASE=データベース名
+# DB_USERNAME=DBユーザー名
+# DB_PASSWORD=DBパスワード
+# BASE_URL=http://app-portfolio.xvps.jp/shiori
+
+⑤データベースの初期化
+# MySQLに接続して初期化SQLを実行
+mysql -u DBユーザー名 -p データベース名 < mysql/init/01_create_tables.sql
+
+⑥Webサーバーの設定確認
+# Apacheの設定で /shiori/public がドキュメントルートになっているか確認
+# またはシンボリックリンクの設定
+# 例: sudo ln -s $(pwd)/php/public /var/www/html/shiori
+
+⑦動作確認
+http://app-portfolio.xvps.jp/shiori にアクセス
+
+【2回目以降のデプロイ】
+①サーバーにSSH接続
+ssh ユーザー名@app-portfolio.xvps.jp
+
+②プロジェクトディレクトリに移動
+cd /path/to/shiori
+
+③デプロイスクリプトを実行（推奨）
+./deploy.sh 更新
+# または手動で以下を実行
+git pull origin main
+cd php
+composer install --no-dev --optimize-autoloader
+cd ..
+chmod -R 755 php/public
+
+④動作確認
+http://app-portfolio.xvps.jp/shiori にアクセス
+----------------------------------
+デプロイ関連ファイル
+- DEPLOY.md: 詳細なデプロイ手順
+- QUICK_START_DEPLOY.md: クイックスタートガイド
+- DEPLOY_CHECKLIST.md: デプロイ前チェックリスト
+- deploy.sh: デプロイ自動化スクリプト
